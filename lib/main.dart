@@ -10,15 +10,18 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
     importance: Importance.high,
     playSound: true);
 
+// flutter local notification
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+// firebase background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.messageId}');
 }
 
 Future<void> main() async {
+  // firebase App initialize
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -67,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
@@ -118,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
     flutterLocalNotificationsPlugin.show(
         0,
         "Testing $_counter",
-        "How You doing ?",
+        "This is an Flutter Push Notification",
         NotificationDetails(
             android: AndroidNotificationDetails(
                 channel.id, channel.name, channel.description,
@@ -141,10 +145,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'This is Flutter Push Notification Example',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            // Text(
+            //   '$_counter',
+            //   style: Theme.of(context).textTheme.headline4,
+            // ),
           ],
         ),
       ),

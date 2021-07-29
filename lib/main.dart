@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+//Global Initialization
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
@@ -17,7 +18,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 // firebase background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('A bg message just showed up :  ${message.messageId}');
+  print('A Background message just showed up :  ${message.messageId}');
 }
 
 Future<void> main() async {
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
+    //  om message app open
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
       }
     });
-
+    //Message for Background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new messageopen app event was published');
       RemoteNotification notification = message.notification;
@@ -145,10 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'This is Flutter Push Notification Example',
             ),
-            // Text(
-            //   '$_counter',
-            //   style: Theme.of(context).textTheme.headline4,
-            // ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
           ],
         ),
       ),
